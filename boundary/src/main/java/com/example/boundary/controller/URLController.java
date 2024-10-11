@@ -5,10 +5,7 @@ import com.example.boundary.mapper.URLDTOMapper;
 import com.example.domain.model.URL;
 import com.example.domain.port.URLInputPort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/urls")
@@ -33,7 +30,21 @@ public class URLController {
         responseDTO.setOriginalUrl(domainURL.getOriginalUrl());
         responseDTO.setShortenedUrl(createdIdentifier);
 
-
         return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping("/resolve/{shortenedUrl}")
+    public ResponseEntity<URLDTO> resolveUrl(@PathVariable String shortenedUrl) {
+        String originalUrl = urlInputPort.retrieveOriginalUrl(shortenedUrl);
+
+        if (originalUrl == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            URLDTO urldto = new URLDTO();
+            urldto.setOriginalUrl(originalUrl);
+            urldto.setShortenedUrl(shortenedUrl);
+
+            return ResponseEntity.ok(urldto);
+        }
     }
 }
