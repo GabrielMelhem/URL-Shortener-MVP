@@ -16,12 +16,10 @@ public class URLEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(length = 2048)
     private String originalUrl;
-
-    @Column(nullable = false, unique = true)
     private String shortenedUrl;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+
+
 }

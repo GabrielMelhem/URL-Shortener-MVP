@@ -46,7 +46,6 @@ public class URLService {
         URL url = new URL();
         url.setOriginalUrl(originalUrl);
         url.setShortenedUrl(shortenedUrl);
-        url.setCreatedAt(LocalDateTime.now());
 
         saveUrl(url);
 

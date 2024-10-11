@@ -11,5 +11,4 @@ public class URL {
 
     private String originalUrl;
     private String shortenedUrl;
-    private LocalDateTime createdAt;
 }
