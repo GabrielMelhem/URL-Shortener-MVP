@@ -26,7 +26,7 @@ public class URLOutputAdapter implements URLOutputPort {
     }
 
     @Override
-    public String shortenUrl(String shortenedUrl) {
-        return urlService.shortenUrl(shortenedUrl);
+    public String shortenUrl(String originalUrl) {
+        return urlService.shortenUrl(originalUrl);
     }
 }
