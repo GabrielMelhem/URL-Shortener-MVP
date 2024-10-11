@@ -5,7 +5,10 @@ import com.example.store.entity.URLEntity;
 import com.example.store.mapper.URLEntityMapper;
 import com.example.store.repository.URLRepository;
 import jakarta.transaction.Transactional;
+import org.hashids.Hashids;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -33,7 +36,20 @@ public class URLService {
     }
 
 
-    public String shortenUrl(String shortenedUrl) {
-        return "";
+    public String shortenUrl(String originalUrl) {
+
+        Hashids hashids = new Hashids("unique_salt", 6);
+
+        long currentTime = System.currentTimeMillis();
+        String shortenedUrl = hashids.encode(currentTime);
+
+        URL url = new URL();
+        url.setOriginalUrl(originalUrl);
+        url.setShortenedUrl(shortenedUrl);
+        url.setCreatedAt(LocalDateTime.now());
+
+        saveUrl(url);
+
+        return shortenedUrl;
     }
 }
