@@ -18,6 +18,8 @@ public class URLEntity {
 
     @Column(length = 2048)
     private String originalUrl;
+
+    @Column(nullable = false)
     private String shortenedUrl;
 
 
