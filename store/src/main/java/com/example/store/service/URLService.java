@@ -17,10 +17,12 @@ public class URLService {
 
     private final URLRepository urlRepository;
     private final URLEntityMapper urlEntityMapper;
+    private final Hashids hashids;
 
-    public URLService(URLRepository urlRepository, URLEntityMapper urlEntityMapper) {
+    public URLService(URLRepository urlRepository, URLEntityMapper urlEntityMapper, Hashids hashids) {
         this.urlRepository = urlRepository;
         this.urlEntityMapper = urlEntityMapper;
+        this.hashids = hashids;
     }
 
     public URL saveUrl(URL url) {
@@ -42,7 +44,6 @@ public class URLService {
             throw new InvalidURLException("Invalid URL provided");
         }
 
-        Hashids hashids = new Hashids("unique_salt", 6);
 
         long currentTime = System.currentTimeMillis();
         String shortenedUrl = hashids.encode(currentTime);
