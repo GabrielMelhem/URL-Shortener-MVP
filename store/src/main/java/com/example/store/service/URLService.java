@@ -1,5 +1,7 @@
 package com.example.store.service;
 
+import com.example.domain.exception.InvalidURLException;
+import com.example.domain.exception.NotFoundException;
 import com.example.domain.model.URL;
 import com.example.store.entity.URLEntity;
 import com.example.store.mapper.URLEntityMapper;
@@ -8,7 +10,6 @@ import jakarta.transaction.Transactional;
 import org.hashids.Hashids;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -32,11 +33,14 @@ public class URLService {
     public String findUrlByShortenedUrl(String shortenedUrl) {
         return urlRepository.findByShortenedUrl(shortenedUrl)
                 .map(URLEntity::getOriginalUrl)
-                .orElse(null);
+                .orElseThrow(() -> new NotFoundException("Shortened URL not found"));
     }
 
 
     public String shortenUrl(String originalUrl) {
+        if(originalUrl == null || originalUrl.isEmpty()) {
+            throw new InvalidURLException("Invalid URL provided");
+        }
 
         Hashids hashids = new Hashids("unique_salt", 6);
 

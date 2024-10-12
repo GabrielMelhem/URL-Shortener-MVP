@@ -23,7 +23,6 @@ public class URLController {
     public ResponseEntity<URLDTO> shortenUrl(@RequestBody URLDTO urlDTO) {
 
         URL domainURL = urlDTOMapper.toDomain(urlDTO);
-
         String createdIdentifier= urlInputPort.shortenUrl(domainURL.getOriginalUrl());
 
         URLDTO responseDTO = new URLDTO();
@@ -37,14 +36,10 @@ public class URLController {
     public ResponseEntity<URLDTO> resolveUrl(@PathVariable String shortenedUrl) {
         String originalUrl = urlInputPort.retrieveOriginalUrl(shortenedUrl);
 
-        if (originalUrl == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            URLDTO urldto = new URLDTO();
-            urldto.setOriginalUrl(originalUrl);
-            urldto.setShortenedUrl(shortenedUrl);
+        URLDTO urldto = new URLDTO();
+        urldto.setOriginalUrl(originalUrl);
+        urldto.setShortenedUrl(shortenedUrl);
 
-            return ResponseEntity.ok(urldto);
-        }
+        return ResponseEntity.ok(urldto);
     }
 }
