@@ -24,7 +24,7 @@
             <artifactId>spring-web</artifactId>
         </dependency>
 
-        <!-- Spring Boot testing for unit and integration tests -->
+        <!-- Spring Boot testing for integration tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -36,7 +36,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
-    </dependencies>
 
+        <!-- Mockito for mocking dependencies in unit tests -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>
