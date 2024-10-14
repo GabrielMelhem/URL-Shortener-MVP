@@ -2,7 +2,7 @@ package com.example.store.service;
 
 import com.example.domain.exception.InvalidURLException;
 import com.example.domain.exception.NotFoundException;
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import com.example.store.entity.URLEntity;
 import com.example.store.mapper.URLEntityMapper;
 import com.example.store.repository.URLRepository;
@@ -27,8 +27,8 @@ public class URLService {
         this.hashids = hashids;
     }
 
-    public URL saveUrl(URL url) {
-        URLEntity urlEntity = urlEntityMapper.toEntity(url);
+    public URLModel saveUrl(URLModel urlModel) {
+        URLEntity urlEntity = urlEntityMapper.toEntity(urlModel);
         URLEntity savedUrlEntity = urlRepository.save(urlEntity);
         return urlEntityMapper.toDomain(savedUrlEntity);
     }
@@ -56,11 +56,11 @@ public class URLService {
         long currentTime = System.currentTimeMillis();
         String shortenedUrl = hashids.encode(currentTime);
 
-        URL url = new URL();
-        url.setOriginalUrl(originalUrl);
-        url.setShortenedUrl(shortenedUrl);
+        URLModel urlModel = new URLModel();
+        urlModel.setOriginalUrl(originalUrl);
+        urlModel.setShortenedUrl(shortenedUrl);
 
-        saveUrl(url);
+        saveUrl(urlModel);
 
         return shortenedUrl;
     }

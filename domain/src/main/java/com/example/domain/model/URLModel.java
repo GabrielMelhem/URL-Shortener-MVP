@@ -1,13 +1,10 @@
 package com.example.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @Setter
-public class URL {
+public class URLModel {
 
     private String originalUrl;
     private String shortenedUrl;

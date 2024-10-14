@@ -1,10 +1,10 @@
 package com.example.domain.port;
 
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 
 public interface URLOutputPort {
 
-    URL saveUrl(URL url);
+    URLModel saveUrl(URLModel urlModel);
     String findUrlByShortenedUrl(String shortenedUrl);
 
     String shortenUrl(String shortenedUrl);

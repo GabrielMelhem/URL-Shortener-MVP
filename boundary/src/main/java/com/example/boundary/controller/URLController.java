@@ -2,7 +2,7 @@ package com.example.boundary.controller;
 
 import com.example.boundary.dto.URLDTO;
 import com.example.boundary.mapper.URLDTOMapper;
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import com.example.domain.port.URLInputPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +22,11 @@ public class URLController {
     @PostMapping("/shorten")
     public ResponseEntity<URLDTO> shortenUrl(@RequestBody URLDTO urlDTO) {
 
-        URL domainURL = urlDTOMapper.toDomain(urlDTO);
-        String createdIdentifier= urlInputPort.shortenUrl(domainURL.getOriginalUrl());
+        URLModel domainURLModel = urlDTOMapper.toDomain(urlDTO);
+        String createdIdentifier= urlInputPort.shortenUrl(domainURLModel.getOriginalUrl());
 
         URLDTO responseDTO = new URLDTO();
-        responseDTO.setOriginalUrl(domainURL.getOriginalUrl());
+        responseDTO.setOriginalUrl(domainURLModel.getOriginalUrl());
         responseDTO.setShortenedUrl(createdIdentifier);
 
         return ResponseEntity.ok(responseDTO);

@@ -1,20 +1,20 @@
 package com.example.domain.factory;
 
 import com.example.domain.adapter.URLInputAdapter;
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import com.example.domain.port.URLOutputPort;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class URLInputAdapterFactoryTest {
+public class URLModelInputAdapterFactoryTest {
 
     @Test
     void testCreateURLInputAdapter() {
 
         URLOutputPort mockOutputPort = new URLOutputPort() {
             @Override
-            public URL saveUrl(URL url) {
+            public URLModel saveUrl(URLModel url) {
                 return url;
             }
 
@@ -33,11 +33,11 @@ public class URLInputAdapterFactoryTest {
 
         assertNotNull(urlInputAdapter, "The adapter should not be null");
 
-        URL url = new URL();
-        url.setOriginalUrl("https://www.google.com/");
-        url.setShortenedUrl("abc123");
+        URLModel urlModel = new URLModel();
+        urlModel.setOriginalUrl("https://www.google.com/");
+        urlModel.setShortenedUrl("abc123");
 
-        assertEquals(url, urlInputAdapter.createUrl(url),"The created URL should be the same as the one provided");
+        assertEquals(urlModel, urlInputAdapter.createUrl(urlModel),"The created URL should be the same as the one provided");
 
     }
 }

@@ -1,6 +1,6 @@
 package com.example.store.adapter;
 
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import com.example.domain.port.URLOutputPort;
 import com.example.store.service.URLService;
 import org.springframework.stereotype.Component;
@@ -16,8 +16,8 @@ public class URLOutputAdapter implements URLOutputPort {
 
 
     @Override
-    public URL saveUrl(URL url) {
-        return urlService.saveUrl(url);
+    public URLModel saveUrl(URLModel urlModel) {
+        return urlService.saveUrl(urlModel);
     }
 
     @Override
