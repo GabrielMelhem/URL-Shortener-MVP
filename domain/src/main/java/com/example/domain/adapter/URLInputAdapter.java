@@ -1,6 +1,6 @@
 package com.example.domain.adapter;
 
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import com.example.domain.port.URLInputPort;
 import com.example.domain.port.URLOutputPort;
 
@@ -14,8 +14,8 @@ public class URLInputAdapter implements URLInputPort {
 
 
     @Override
-    public URL createUrl(URL url) {
-        return urlOutputPort.saveUrl(url);
+    public URLModel createUrl(URLModel urlModel) {
+        return urlOutputPort.saveUrl(urlModel);
     }
 
     @Override

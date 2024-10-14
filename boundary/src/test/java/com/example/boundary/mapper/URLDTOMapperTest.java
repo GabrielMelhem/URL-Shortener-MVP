@@ -1,7 +1,7 @@
 package com.example.boundary.mapper;
 
 import com.example.boundary.dto.URLDTO;
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -13,15 +13,15 @@ public class URLDTOMapperTest {
 
     @Test
     void testToDTO() {
-        URL domainUrl = new URL();
-        domainUrl.setOriginalUrl("https://www.google.com");
-        domainUrl.setShortenedUrl("abc123");
+        URLModel domainUrlModel = new URLModel();
+        domainUrlModel.setOriginalUrl("https://www.google.com");
+        domainUrlModel.setShortenedUrl("abc123");
 
-        URLDTO urldto = urldtoMapper.toDTO(domainUrl);
+        URLDTO urldto = urldtoMapper.toDTO(domainUrlModel);
 
         assertNotNull(urldto);
-        assertEquals(domainUrl.getOriginalUrl(), urldto.getOriginalUrl());
-        assertEquals(domainUrl.getShortenedUrl(), urldto.getShortenedUrl());
+        assertEquals(domainUrlModel.getOriginalUrl(), urldto.getOriginalUrl());
+        assertEquals(domainUrlModel.getShortenedUrl(), urldto.getShortenedUrl());
     }
 
     @Test
@@ -30,10 +30,10 @@ public class URLDTOMapperTest {
         urldto.setOriginalUrl("https://www.google.com");
         urldto.setShortenedUrl("abc123");
 
-        URL domainUrl = urldtoMapper.toDomain(urldto);
+        URLModel domainUrlModel = urldtoMapper.toDomain(urldto);
 
-        assertNotNull(domainUrl);
-        assertEquals(urldto.getOriginalUrl(), domainUrl.getOriginalUrl());
-        assertEquals(urldto.getShortenedUrl(), domainUrl.getShortenedUrl());
+        assertNotNull(domainUrlModel);
+        assertEquals(urldto.getOriginalUrl(), domainUrlModel.getOriginalUrl());
+        assertEquals(urldto.getShortenedUrl(), domainUrlModel.getShortenedUrl());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.store.adapter;
 
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import com.example.store.service.URLService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class URLOutputAdapterTest {
+public class URLModelOutputAdapterTest {
 
     private URLService urlService;
     private URLOutputAdapter urlOutputAdapter;
@@ -22,17 +22,17 @@ public class URLOutputAdapterTest {
 
     @Test
     void testSaveUrl(){
-        URL url = new URL();
-        url.setOriginalUrl("https://www.google.com/");
-        url.setShortenedUrl("abc123");
+        URLModel urlModel = new URLModel();
+        urlModel.setOriginalUrl("https://www.google.com/");
+        urlModel.setShortenedUrl("abc123");
 
-        when(urlService.saveUrl(any(URL.class))).thenReturn(url);
+        when(urlService.saveUrl(any(URLModel.class))).thenReturn(urlModel);
 
-        URL savedUrl = urlOutputAdapter.saveUrl(url);
+        URLModel savedUrlModel = urlOutputAdapter.saveUrl(urlModel);
 
-        assertEquals(url.getOriginalUrl(), savedUrl.getOriginalUrl());
-        assertEquals(url.getShortenedUrl(), savedUrl.getShortenedUrl());
-        verify(urlService,times(1)).saveUrl(url);
+        assertEquals(urlModel.getOriginalUrl(), savedUrlModel.getOriginalUrl());
+        assertEquals(urlModel.getShortenedUrl(), savedUrlModel.getShortenedUrl());
+        verify(urlService,times(1)).saveUrl(urlModel);
     }
 
     @Test

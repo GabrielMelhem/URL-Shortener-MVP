@@ -2,7 +2,7 @@ package com.example.store.service;
 
 import com.example.domain.exception.InvalidURLException;
 import com.example.domain.exception.NotFoundException;
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import com.example.store.entity.URLEntity;
 import com.example.store.mapper.URLEntityMapper;
 import com.example.store.repository.URLRepository;
@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class URLServiceTest {
+public class URLModelServiceTest {
 
     @Mock
     private URLRepository urlRepository;
@@ -39,17 +39,17 @@ public class URLServiceTest {
 
     @Test
     void testSaveUrl(){
-        URL domainUrl = new URL();
-        domainUrl.setOriginalUrl("https://www.google.com/");
+        URLModel domainUrlModel = new URLModel();
+        domainUrlModel.setOriginalUrl("https://www.google.com/");
 
         URLEntity urlEntity = new URLEntity();
         urlEntity.setOriginalUrl("https://www.google.com/");
 
-        when(urlEntityMapper.toEntity(domainUrl)).thenReturn(urlEntity);
+        when(urlEntityMapper.toEntity(domainUrlModel)).thenReturn(urlEntity);
         when(urlRepository.save(urlEntity)).thenReturn(urlEntity);
-        when(urlEntityMapper.toDomain(urlEntity)).thenReturn(domainUrl);
+        when(urlEntityMapper.toDomain(urlEntity)).thenReturn(domainUrlModel);
 
-        URL result = urlService.saveUrl(domainUrl);
+        URLModel result = urlService.saveUrl(domainUrlModel);
         assertEquals("https://www.google.com/", result.getOriginalUrl());
         verify(urlRepository).save(urlEntity);
     }
@@ -85,14 +85,14 @@ public class URLServiceTest {
 
         when(hashids.encode(anyLong())).thenReturn(shortenedUrl);
 
-        URL url = new URL();
-        url.setOriginalUrl(originalUrl);
-        url.setShortenedUrl(shortenedUrl);
+        URLModel urlModel = new URLModel();
+        urlModel.setOriginalUrl(originalUrl);
+        urlModel.setShortenedUrl(shortenedUrl);
 
         URLEntity urlEntity = new URLEntity();
-        when(urlEntityMapper.toEntity(any(URL.class))).thenReturn(new URLEntity());
+        when(urlEntityMapper.toEntity(any(URLModel.class))).thenReturn(new URLEntity());
         when(urlRepository.save(any(URLEntity.class))).thenReturn(new URLEntity());
-        when(urlEntityMapper.toDomain(urlEntity)).thenReturn(url);
+        when(urlEntityMapper.toDomain(urlEntity)).thenReturn(urlModel);
 
         String result = urlService.shortenUrl(originalUrl);
 

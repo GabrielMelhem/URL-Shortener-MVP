@@ -2,7 +2,7 @@ package com.example.boundary.controller;
 
 import com.example.boundary.dto.URLDTO;
 import com.example.boundary.mapper.URLDTOMapper;
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import com.example.domain.port.URLInputPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class URLControllerTest {
+public class URLModelControllerTest {
 
     @Mock
     private URLInputPort urlInputPort;
@@ -34,12 +34,12 @@ public class URLControllerTest {
         URLDTO urlDTO = new URLDTO();
         urlDTO.setOriginalUrl("https://www.google.com");
 
-        URL domainURL = new URL();
-        domainURL.setOriginalUrl("https://www.google.com");
+        URLModel domainURLModel = new URLModel();
+        domainURLModel.setOriginalUrl("https://www.google.com");
         String createdIdentifieer ="abc123";
 
-        when(urlDTOMapper.toDomain(urlDTO)).thenReturn(domainURL);
-        when(urlInputPort.shortenUrl(domainURL.getOriginalUrl())).thenReturn(createdIdentifieer);
+        when(urlDTOMapper.toDomain(urlDTO)).thenReturn(domainURLModel);
+        when(urlInputPort.shortenUrl(domainURLModel.getOriginalUrl())).thenReturn(createdIdentifieer);
 
         ResponseEntity<URLDTO> response = urlController.shortenUrl(urlDTO);
 

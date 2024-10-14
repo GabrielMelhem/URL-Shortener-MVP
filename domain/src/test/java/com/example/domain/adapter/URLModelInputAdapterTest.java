@@ -1,6 +1,6 @@
 package com.example.domain.adapter;
 
-import com.example.domain.model.URL;
+import com.example.domain.model.URLModel;
 import com.example.domain.port.URLOutputPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class URLInputAdapterTest {
+public class URLModelInputAdapterTest {
 
     private URLOutputPort urlOutputPort;
     private URLInputAdapter urlInputAdapter;
@@ -21,14 +21,14 @@ public class URLInputAdapterTest {
 
     @Test
     void testCreateUrl() {
-        URL urlToCreate = new URL();
-        when(urlOutputPort.saveUrl(urlToCreate)).thenReturn(urlToCreate);
+        URLModel urlModelToCreate = new URLModel();
+        when(urlOutputPort.saveUrl(urlModelToCreate)).thenReturn(urlModelToCreate);
 
-        URL createdURL = urlInputAdapter.createUrl(urlToCreate);
+        URLModel createdURLModel = urlInputAdapter.createUrl(urlModelToCreate);
 
 
-        assertEquals(urlToCreate, createdURL);
-        verify(urlOutputPort).saveUrl(urlToCreate);
+        assertEquals(urlModelToCreate, createdURLModel);
+        verify(urlOutputPort).saveUrl(urlModelToCreate);
     }
 
     @Test
