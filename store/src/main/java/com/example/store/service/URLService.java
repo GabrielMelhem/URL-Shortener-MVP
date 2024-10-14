@@ -10,6 +10,8 @@ import jakarta.transaction.Transactional;
 import org.hashids.Hashids;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
+
 
 @Service
 @Transactional
@@ -41,7 +43,13 @@ public class URLService {
 
     public String shortenUrl(String originalUrl) {
         if(originalUrl == null || originalUrl.isEmpty()) {
-            throw new InvalidURLException("Invalid URL provided");
+            throw new InvalidURLException("Invalid URL provided: URL cannot be null or empty");
+        }
+
+        try {
+            new java.net.URL(originalUrl);
+        } catch (MalformedURLException e) {
+            throw new InvalidURLException("Invalid URL provided: Malformed URL");
         }
 
 
