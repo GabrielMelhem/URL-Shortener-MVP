@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "urls")
+@Table(name = "urls",indexes = {
+        @Index(name = "idx_shortenedUrl", columnList = "shortenedUrl")
+})
 @Getter
 @Setter
 public class URLEntity {
