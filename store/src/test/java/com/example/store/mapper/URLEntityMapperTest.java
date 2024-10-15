@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class URLModelEntityMapperTest {
+public class URLEntityMapperTest {
 
     private URLEntityMapper urlEntityMapper;
 
