@@ -8,6 +8,8 @@ import com.example.store.mapper.URLEntityMapper;
 import com.example.store.repository.URLRepository;
 import jakarta.transaction.Transactional;
 import org.hashids.Hashids;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
@@ -21,6 +23,8 @@ public class URLService {
     private final URLEntityMapper urlEntityMapper;
     private final Hashids hashids;
 
+    private static final Logger logger = LoggerFactory.getLogger(URLService.class);
+
     public URLService(URLRepository urlRepository, URLEntityMapper urlEntityMapper, Hashids hashids) {
         this.urlRepository = urlRepository;
         this.urlEntityMapper = urlEntityMapper;
@@ -28,13 +32,18 @@ public class URLService {
     }
 
     public URLModel saveUrl(URLModel urlModel) {
+        logger.info("Saving URL: {}", urlModel.getOriginalUrl());
+
         URLEntity urlEntity = urlEntityMapper.toEntity(urlModel);
         URLEntity savedUrlEntity = urlRepository.save(urlEntity);
+
         return urlEntityMapper.toDomain(savedUrlEntity);
     }
 
 
     public String findUrlByShortenedUrl(String shortenedUrl) {
+        logger.info("Finding original URL for shortenedUrl: {}", shortenedUrl);
+
         return urlRepository.findByShortenedUrl(shortenedUrl)
                 .map(URLEntity::getOriginalUrl)
                 .orElseThrow(() -> new NotFoundException("Shortened URL not found"));
@@ -61,7 +70,7 @@ public class URLService {
         urlModel.setShortenedUrl(shortenedUrl);
 
         saveUrl(urlModel);
-
+        logger.info("Successfully shortened URL {} to {}", originalUrl, shortenedUrl);
         return shortenedUrl;
     }
 }
