@@ -13,6 +13,7 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!-- Boundary, Domain, and Store Modules -->
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>boundary</artifactId>
@@ -27,6 +28,18 @@
             <groupId>com.example</groupId>
             <artifactId>store</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Spring Boot Actuator for exposing health and metrics endpoints -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Micrometer Prometheus integration for metrics collection -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
 
         <!-- Spring Boot testing for integration testing -->
@@ -62,5 +75,15 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.3.4</version>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
