@@ -4,6 +4,7 @@ import com.example.boundary.dto.URLDTO;
 import com.example.boundary.mapper.URLDTOMapper;
 import com.example.domain.model.URLModel;
 import com.example.domain.port.URLInputPort;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +14,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/urls")
 public class URLController {
 
+    private static final Logger logger = LoggerFactory.getLogger(URLController.class);
+
     private final URLInputPort urlInputPort;
     private final URLDTOMapper urlDTOMapper;
 
-    private static final Logger logger = LoggerFactory.getLogger(URLController.class);
+
 
     public URLController(URLInputPort urlInputPort, URLDTOMapper urlDTOMapper) {
         this.urlInputPort = urlInputPort;
         this.urlDTOMapper = urlDTOMapper;
     }
 
+    @RateLimiter(name = "urlRateLimiter")
     @PostMapping("/shorten")
     public ResponseEntity<URLDTO> shortenUrl(@RequestBody URLDTO urlDTO) {
-            logger.info("Received request  to shorten URL: {}", urlDTO.getOriginalUrl());
+        logger.info("Received request  to shorten URL: {}", urlDTO.getOriginalUrl());
+
         URLModel domainURLModel = urlDTOMapper.toDomain(urlDTO);
         String createdIdentifier= urlInputPort.shortenUrl(domainURLModel.getOriginalUrl());
 
@@ -36,6 +41,7 @@ public class URLController {
         return ResponseEntity.ok(responseDTO);
     }
 
+    @RateLimiter(name = "urlRateLimiter")
     @GetMapping("/resolve/{shortenedUrl}")
     public ResponseEntity<URLDTO> resolveUrl(@PathVariable String shortenedUrl) {
         logger.info("Resolving URL with shortenedUrl: {}", shortenedUrl);
