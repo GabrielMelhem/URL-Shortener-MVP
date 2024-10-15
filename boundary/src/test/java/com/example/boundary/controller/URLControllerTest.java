@@ -29,13 +29,14 @@ public class URLControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
     @Test
     void testShortenUrl(){
         URLDTO urlDTO = new URLDTO();
-        urlDTO.setOriginalUrl("https://www.google.com");
+        urlDTO.setOriginalUrl("https://www.google.com/");
 
         URLModel domainURLModel = new URLModel();
-        domainURLModel.setOriginalUrl("https://www.google.com");
+        domainURLModel.setOriginalUrl("https://www.google.com/");
         String createdIdentifieer ="abc123";
 
         when(urlDTOMapper.toDomain(urlDTO)).thenReturn(domainURLModel);
@@ -52,7 +53,7 @@ public class URLControllerTest {
     @Test
     void testResolveUrl(){
         String shortenedUrl = "abc123";
-        String originalUrl = "https://www.google.com";
+        String originalUrl = "https://www.google.com/";
 
         when(urlInputPort.retrieveOriginalUrl(shortenedUrl)).thenReturn(originalUrl);
 
@@ -62,4 +63,7 @@ public class URLControllerTest {
         assertEquals(originalUrl, response.getBody().getOriginalUrl());
         assertEquals(shortenedUrl, response.getBody().getShortenedUrl());
     }
+
+
+
 }

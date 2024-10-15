@@ -39,6 +39,20 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Rate Limiting-->
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-ratelimiter</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
+
+
         <!-- Spring Boot testing for unit and integration tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
