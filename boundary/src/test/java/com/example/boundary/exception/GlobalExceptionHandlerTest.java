@@ -60,6 +60,6 @@ public class GlobalExceptionHandlerTest {
 
         assertNotNull(response);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals("Generic exception occurred", response.getBody());
+        assertEquals("An unexpected error occurred.", response.getBody());
     }
 }

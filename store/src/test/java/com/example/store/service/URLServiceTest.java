@@ -6,6 +6,7 @@ import com.example.domain.model.URLModel;
 import com.example.store.entity.URLEntity;
 import com.example.store.mapper.URLEntityMapper;
 import com.example.store.repository.URLRepository;
+import com.github.benmanes.caffeine.cache.Cache;
 import org.hashids.Hashids;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class URLModelServiceTest {
+public class URLServiceTest {
 
     @Mock
     private URLRepository urlRepository;
@@ -28,6 +29,9 @@ public class URLModelServiceTest {
 
     @Mock
     private Hashids hashids;
+
+    @Mock
+    private Cache<String,String> urlCache;
 
     @InjectMocks
     private URLService urlService;
@@ -55,23 +59,41 @@ public class URLModelServiceTest {
     }
 
     @Test
-    void testFindUrlByShortenedUrl_Success(){
+    void testFindUrlByShortenedUrl_Success_CacheHit(){
+        String shortenedUrl = "abc123";
+        String originalUrl = "https://www.google.com/";
+
+        // Simulate cache hit
+        when(urlCache.getIfPresent(shortenedUrl)).thenReturn(originalUrl);
+
+        String result = urlService.findUrlByShortenedUrl(shortenedUrl);
+        assertEquals(originalUrl, result);
+        verify(urlRepository,never()).findByShortenedUrl(shortenedUrl);
+
+    }
+
+    @Test
+    void testFindUrlByShortenedUrl_Success_CacheMiss(){
         String shortenedUrl = "abc123";
         String originalUrl = "https://www.google.com/";
 
         URLEntity urlEntity = new URLEntity();
         urlEntity.setOriginalUrl(originalUrl);
 
+        // Simulate cache miss
+        when(urlCache.getIfPresent(shortenedUrl)).thenReturn(null);
         when(urlRepository.findByShortenedUrl(shortenedUrl)).thenReturn(Optional.of(urlEntity));
 
         String result = urlService.findUrlByShortenedUrl(shortenedUrl);
         assertEquals(originalUrl, result);
+        verify(urlCache).put(shortenedUrl, originalUrl);
     }
 
     @Test
     void testFindUrlByShortenedUrl_NotFound(){
         String shortenedUrl = "abc123";
 
+        when(urlCache.getIfPresent(shortenedUrl)).thenReturn(null);
         when(urlRepository.findByShortenedUrl(shortenedUrl)).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> urlService.findUrlByShortenedUrl(shortenedUrl));
@@ -97,6 +119,7 @@ public class URLModelServiceTest {
         String result = urlService.shortenUrl(originalUrl);
 
         assertEquals(shortenedUrl, result);
+        verify(urlCache).put(shortenedUrl, originalUrl);
     }
 
     @Test

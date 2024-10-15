@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class URLModelOutputAdapterTest {
+public class URLOutputAdapterTest {
 
     private URLService urlService;
     private URLOutputAdapter urlOutputAdapter;
